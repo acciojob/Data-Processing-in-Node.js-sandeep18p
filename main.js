@@ -1,5 +1,3 @@
-
-
 const fs = require('fs');
 const { Transform } = require('stream');
 
@@ -7,13 +5,13 @@ function processData(inputFilePath, outputFilePath) {
   const fileStream = fs.createReadStream(inputFilePath);
   const transformedData = fs.createWriteStream(outputFilePath);
 
-  const passThrough = new Transform({
+  const uppercase = new Transform({
     transform(chunk, encoding, callback) {
-      callback(null, chunk);
+      callback(null, chunk.toString().toUpperCase());
     },
   });
 
-  fileStream.pipe(passThrough).pipe(transformedData);
+  fileStream.pipe(uppercase).pipe(transformedData);
 }
 
 processData('input.txt', 'output.txt');
